@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom" 
 import Sidebar from "./Sidebar" 
 
-const tagList = [
+type Tag ={
+  name:string;
+  count: number;
+}
+const tagList: Tag[] = [
   { name: "Cool", count: 350 },
   { name: "Beautiful", count: 210 },
   { name: "Easy", count: 190 },
@@ -16,7 +20,7 @@ const tagList = [
   { name: "Tag", count: 50 },
 ] 
 
-const Tags = () => {
+const Tags: React.FC = () => {
   const navigate = useNavigate() 
 
   return (

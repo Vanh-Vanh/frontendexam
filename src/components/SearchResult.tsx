@@ -10,7 +10,7 @@ type User = {
   imageUrl: string
 }
 
-const SearchResult = () => {
+const SearchResult: React.FC = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
@@ -38,15 +38,15 @@ const SearchResult = () => {
     setVisibleCount(Math.min(6, limit))
   }, [keyword, limit])
 
-  const filteredUsers = users.filter(
+  const filteredUsers: User[] = users.filter(
     (u) =>
       u.name.toLowerCase().includes(keyword) ||
       u.username.toLowerCase().includes(keyword)
   )
 
-  const limitedUsers = filteredUsers.slice(0, limit)
+  const limitedUsers: User[] = filteredUsers.slice(0, limit)
 
-  const showMore = useCallback(() => {
+  const showMore = useCallback((): void => {
     if (isFetching) return
     if (visibleCount >= limitedUsers.length) return
 

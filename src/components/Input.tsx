@@ -1,9 +1,9 @@
 import { useState } from "react"
 
 const Input = () => {
-    const steps = [3, 6, 9, 12, 15, 50];
-    const [index, setIndex] = useState(steps.indexOf(15));
-    const percent = (index / (steps.length - 1)) * 100;
+    const steps: number[] = [3, 6, 9, 12, 15, 50];
+    const [index, setIndex] = useState<number>(steps.indexOf(15));
+    const percent: number = (index / (steps.length - 1)) * 100;
     return(
         <div className="min-h-screen bg-black text-white px-8 py-10 space-y-10">
             <section>

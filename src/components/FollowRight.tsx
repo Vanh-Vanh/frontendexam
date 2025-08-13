@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 
-const mockUsers = Array.from({ length: 50 }, (_, i) => ({
+type User = {
+  name: string;
+  username: string;
+  avatar: string;
+}
+
+const mockUsers: User[] = Array.from({ length: 50 }, (_, i) => ({
   name: "Fullname",
   username: "@username",
   avatar: `https://i.pravatar.cc/150?img=${i + 10}`,

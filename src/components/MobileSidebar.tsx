@@ -1,7 +1,7 @@
 import { Home, FileText } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 
-const MobileNav = () => {
+const MobileSidebar:React.FC = () => {
   const location = useLocation()
 
   const isActive = (path: string) => location.pathname.startsWith(path)
@@ -33,4 +33,4 @@ const MobileNav = () => {
   )
 }
 
-export default MobileNav
+export default MobileSidebar

@@ -1,32 +1,33 @@
-import { useState } from "react" 
-import { useNavigate } from "react-router-dom" 
-import Sidebar from "./Sidebar" 
-import FollowRight from "./FollowRight" 
-import MobileSidebar from "./MobileSidebar"
-import MobileLogo from "./MobileLogo"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import FollowRight from "./FollowRight";
+import MobileSidebar from "./MobileSidebar";
+import MobileLogo from "./MobileLogo";
 
-const Search = () => {
-  const steps = [3, 6, 9, 12, 15, 50] 
-  const [index, setIndex] = useState(steps.indexOf(15)) 
-  const percent = (index / (steps.length - 1)) * 100 
-  const navigate = useNavigate() 
-  const [keyword, setKeyWord] = useState("") 
+const Search: React.FC = () => {
+  const steps: number[] = [3, 6, 9, 12, 15, 50];
+  const [index, setIndex] = useState<number>(steps.indexOf(15));
+  const percent: number = (index / (steps.length - 1)) * 100;
+  const navigate = useNavigate();
+  const [keyword, setKeyWord] = useState<string>("");
 
-  const handleSearch = () => {
-    const limit = steps[index] 
-    const encodedKeyword = encodeURIComponent(keyword.trim()) 
-    navigate(`/search/result?keyword=${encodedKeyword}&limit=${limit}`)
-  } 
+  const handleSearch = (): void => {
+    const limit = steps[index];
+    const encodedKeyword = encodeURIComponent(keyword.trim());
+    navigate(`/search/result?keyword=${encodedKeyword}&limit=${limit}`);
+  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-screen bg-black text-white overflow-hidden">
       {/* Sidebar */}
-      <MobileLogo/>
+      <MobileLogo />
       <Sidebar className="hidden md:block" />
-      
-      {/* Left side  */}
+
+      {/* Left side */}
       <div className="flex-1 px-4 py-16 md:px-20 flex flex-col overflow-y-auto pb-14">
         <div className="flex-1 space-y-10">
+
           <section>
             <p className="text-3xl mb-4">Search</p>
             <input
@@ -34,7 +35,7 @@ const Search = () => {
               placeholder="Keyword"
               value={keyword}
               onChange={(e) => setKeyWord(e.target.value)}
-              className="w-full bg-black text-lg border-4 border-gray-500 text-white px-4 py-2 rounded outline-none focus:border-none focus:ring-4 focus:ring-orange-400"
+              className="w-full bg-black text-lg border-4 border-gray-500 text-white px-4 py-2 rounded outline-none focus:ring-4 focus:ring-orange-400"
             />
           </section>
 
@@ -42,9 +43,7 @@ const Search = () => {
 
           <section>
             <p className="text-3xl mb-4"># Of results per page</p>
-            <h2 className="text-3xl mb-4">
-              {[3, 6, 9, 12, 15, 50][index]} results
-            </h2>
+            <h2 className="text-3xl mb-4">{steps[index]} results</h2>
 
             <div className="relative w-full max-w-[725px]">
               <input
@@ -79,13 +78,12 @@ const Search = () => {
 
               <div className="pointer-events-none absolute left-0 top-[calc(100%+6px)] w-full h-5">
                 {steps.map((s, i) => {
-                  const stepPercent = (i / (steps.length - 1)) * 100 
-                  const isActive = i === index 
+                  const stepPercent = (i / (steps.length - 1)) * 100;
+                  const isActive = i === index;
 
-                  let translateClass = "-translate-x-1/2" 
-                  if (i === 0) translateClass = "translate-x-0" 
-                  else if (i === steps.length - 1)
-                    translateClass = "-translate-x-full" 
+                  let translateClass = "-translate-x-1/2";
+                  if (i === 0) translateClass = "translate-x-0";
+                  else if (i === steps.length - 1) translateClass = "-translate-x-full";
 
                   return (
                     <span
@@ -97,7 +95,7 @@ const Search = () => {
                     >
                       {s}
                     </span>
-                  ) 
+                  );
                 })}
               </div>
             </div>
@@ -106,7 +104,6 @@ const Search = () => {
 
         <div className="mt-auto space-y-4">
           <div className="border-b border-gray-300 w-full"></div>
-
           <button
             onClick={handleSearch}
             className="w-full md:w-40 uppercase hover:border hover:border-white hover:bg-black hover:text-white font-bold px-6 py-2 rounded bg-white text-black transition-all mt-auto"
@@ -118,13 +115,12 @@ const Search = () => {
 
       {/* Right */}
       <div className="hidden 2xl:block w-[400px] px-20 py-6">
-        <FollowRight className="hidden md:block"/>
+        <FollowRight className="hidden md:block" />
       </div>
 
-      <MobileSidebar/>
+      <MobileSidebar />
     </div>
-  ) 
-} 
+  );
+};
 
-export default Search 
-           
+export default Search;

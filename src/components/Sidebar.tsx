@@ -5,10 +5,10 @@ type SidebarProps = {
   className?: string;
 };
 
-function Sidebar({ className = "" }: SidebarProps) {
+const Sidebar: React.FC<SidebarProps>=({ className = "" }) => {
   const location = useLocation();
 
-  const isActive = (path: string) => {
+  const isActive = (path: string): boolean => {
     return location.pathname.startsWith(path);
   };
 
