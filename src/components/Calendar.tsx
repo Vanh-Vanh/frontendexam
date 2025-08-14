@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import range from "lodash-es/range";
 import clsx from "clsx";
 
@@ -16,7 +16,9 @@ const Calendar: React.FC = () => {
   const dayObjOf1: Dayjs = dayjs(`${thisYear}-${thisMonth + 1}-1`);
   const weekDayOf1: number = dayObjOf1.day();
 
-  const dayObjOfLast: Dayjs = dayjs(`${thisYear}-${thisMonth + 1}-${daysInMonth}`);
+  const dayObjOfLast: Dayjs = dayjs(
+    `${thisYear}-${thisMonth + 1}-${daysInMonth}`
+  );
   const weekDayOfLast: number = dayObjOfLast.day();
 
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
@@ -31,17 +33,19 @@ const Calendar: React.FC = () => {
     confirmedDate ? confirmedDate.format("MM/DD/YYYY") : ""
   );
 
-  const years: number[] = Array.from({ length: 20 }, (_, i) => startYear + i);
+  const years = useMemo(
+    () => Array.from({ length: 20 }, (_, i) => startYear + i),
+    [startYear]
+  );
+  const handlePrev = useCallback(() => {
+    setDayObj((d) => d.subtract(1, "month"));
+  }, []);
 
-  const handlePrev = (): void => {
-    setDayObj(dayObj.subtract(1, "month"));
-  };
+  const handleNext = useCallback(() => {
+    setDayObj((d) => d.add(1, "month"));
+  }, []);
 
-  const handleNext = (): void => {
-    setDayObj(dayObj.add(1, "month"));
-  };
-
-  const handleConfirm = (): void => {
+  const handleConfirm = useCallback(() => {
     if (showYearPicker && highlightedYear !== null) {
       const newDate = dayObj.year(highlightedYear);
       setDayObj(newDate);
@@ -56,13 +60,13 @@ const Calendar: React.FC = () => {
       setConfirmedDate(selectedDate);
       setInputValue(selectedDate.format("MM/DD/YYYY"));
     }
-  };
+  }, [showYearPicker, highlightedYear, dayObj, selectedDate]);
 
-  const handleCancel = (): void => {
+  const handleCancel = useCallback(() => {
     setSelectedDate(null);
     setShowCalendar(false);
     setShowYearPicker(false);
-  };
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">

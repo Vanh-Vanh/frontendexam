@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import FollowRight from "./FollowRight";
@@ -6,17 +6,22 @@ import MobileSidebar from "./MobileSidebar";
 import MobileLogo from "./MobileLogo";
 
 const Search: React.FC = () => {
-  const steps: number[] = [3, 6, 9, 12, 15, 50];
+  const steps = useMemo(() => [3, 6, 9, 12, 15, 50],[])
   const [index, setIndex] = useState<number>(steps.indexOf(15));
-  const percent: number = (index / (steps.length - 1)) * 100;
+
+  const percent = useMemo(
+    () => (index / (steps.length - 1)) * 100,
+    [index, steps.length]
+  )
+
   const navigate = useNavigate();
   const [keyword, setKeyWord] = useState<string>("");
 
-  const handleSearch = (): void => {
+  const handleSearch = useCallback(() => {
     const limit = steps[index];
     const encodedKeyword = encodeURIComponent(keyword.trim());
     navigate(`/search/result?keyword=${encodedKeyword}&limit=${limit}`);
-  };
+  }, [keyword, index, navigate, steps]);
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-screen bg-black text-white overflow-hidden">
@@ -35,7 +40,7 @@ const Search: React.FC = () => {
               placeholder="Keyword"
               value={keyword}
               onChange={(e) => setKeyWord(e.target.value)}
-              className="w-full bg-black text-lg border-4 border-gray-500 text-white px-4 py-2 rounded outline-none focus:ring-4 focus:ring-orange-400"
+              className="w-full bg-black text-lg ring-4 ring-gray-500 text-white px-4 py-2 rounded outline-none focus:ring-4 focus:ring-orange-400"
             />
           </section>
 

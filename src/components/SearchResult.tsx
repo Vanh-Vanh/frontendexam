@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import Sidebar from "./Sidebar"
 import FollowRight from "./FollowRight"
@@ -38,13 +38,20 @@ const SearchResult: React.FC = () => {
     setVisibleCount(Math.min(6, limit))
   }, [keyword, limit])
 
-  const filteredUsers: User[] = users.filter(
-    (u) =>
-      u.name.toLowerCase().includes(keyword) ||
-      u.username.toLowerCase().includes(keyword)
+  const filteredUsers = useMemo(
+    () =>
+      users.filter(
+        (u) =>
+          u.name.toLowerCase().includes(keyword) ||
+          u.username.toLowerCase().includes(keyword)
+      ),
+    [users, keyword]
   )
 
-  const limitedUsers: User[] = filteredUsers.slice(0, limit)
+  const limitedUsers = useMemo(
+    () => filteredUsers.slice(0, limit),
+    [filteredUsers, limit]
+  )
 
   const showMore = useCallback((): void => {
     if (isFetching) return

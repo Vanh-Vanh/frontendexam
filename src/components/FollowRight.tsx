@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
 
 type User = {
@@ -41,11 +41,11 @@ export default function FollowRight({
     setVisibleCount(6);
   }, [activeTab]);
 
-  const toggleFollow = (index: number) => {
+  const toggleFollow = useCallback((index: number) => {
     setFollowing((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
-  };
+  }, []);
 
   useEffect(() => {
     if (loading) return;

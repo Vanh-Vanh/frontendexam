@@ -1,10 +1,12 @@
-import { useNavigate } from "react-router-dom" 
-import Sidebar from "./Sidebar" 
+import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import Sidebar from "./Sidebar";
 
-type Tag ={
-  name:string;
+type Tag = {
+  name: string;
   count: number;
-}
+};
+
 const tagList: Tag[] = [
   { name: "Cool", count: 350 },
   { name: "Beautiful", count: 210 },
@@ -18,14 +20,35 @@ const tagList: Tag[] = [
   { name: "Tag", count: 50 },
   { name: "Tag", count: 50 },
   { name: "Tag", count: 50 },
-] 
+];
 
 const Tags: React.FC = () => {
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
+
+  const renderedTags = useMemo(
+    () =>
+      tagList.map((tag, idx) => (
+        <div
+          key={idx}
+          className="rounded-md p-4 cursor-pointer"
+        >
+          <div className="h-32 relative bg-zinc-800 rounded-md mb-2">
+            <div className="absolute bottom-2 left-2 border-3 border-white px-4 py-1 rounded text-sm font-semibold text-white truncate max-w-[90%] text-center">
+              {tag.name}
+            </div>
+          </div>
+          <h6 className="text-sm text-white text-start">{tag.name}</h6>
+          <p className="text-sm text-gray-400 text-start">
+            {tag.count} {tag.count === 1 ? "Result" : "Results"}
+          </p>
+        </div>
+      )),
+    [] 
+  );
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-screen bg-black text-white overflow-hidden">
-      <Sidebar className="hidden md:block"/>
+      <Sidebar className="hidden md:block" />
       <div className="flex-1 px-4 py-6 md:px-10 space-y-10 overflow-y-auto">
         <div className="flex items-center space-x-2 mb-6">
           <button
@@ -39,27 +62,11 @@ const Tags: React.FC = () => {
         <h1 className="text-2xl font-bold mb-6">Tags</h1>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-          {tagList.map((tag, idx) => (
-            <div
-              key={idx}
-              
-              className="rounded-md p-4 cursor-pointer "
-            >           
-              <div className="h-32 relative bg-zinc-800 rounded-md mb-2">
-                <div className="absolute bottom-2 left-2 border-3 border-white px-4 py-1 rounded text-sm font-semibold text-white truncate max-w-[90%] text-center">
-                  {tag.name}
-                </div>
-              </div>
-              <h6 className="text-sm text-white text-start">{tag.name}</h6>
-              <p className="text-sm text-gray-400 text-start">
-                {tag.count} {tag.count === 1 ? "Result" : "Results"}
-              </p>
-            </div>
-          ))}
+          {renderedTags}
         </div>
       </div>
     </div>
-  ) 
-} 
+  );
+};
 
-export default Tags 
+export default Tags;

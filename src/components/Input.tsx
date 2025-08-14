@@ -1,9 +1,20 @@
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 const Input = () => {
     const steps: number[] = [3, 6, 9, 12, 15, 50];
     const [index, setIndex] = useState<number>(steps.indexOf(15));
-    const percent: number = (index / (steps.length - 1)) * 100;
+
+    const percent = useMemo(
+      () => (index / (steps.length - 1)) * 100,
+      [index, steps.length]
+    )
+  const handleSliderChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIndex(Number(e.target.value))
+    },
+    []
+  ) 
+
     return(
         <div className="min-h-screen bg-black text-white px-8 py-10 space-y-10">
             <section>
@@ -90,7 +101,7 @@ const Input = () => {
               max={steps.length - 1}
               value={index}
               step={1}
-              onChange={(e) => setIndex(Number(e.target.value))}
+              onChange={handleSliderChange}
               className="relative z-10 w-full appearance-none h-2 rounded-full outline-none
                 [&::-webkit-slider-thumb]:appearance-none 
                 [&::-webkit-slider-thumb]:h-5 

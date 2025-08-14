@@ -1,4 +1,8 @@
+
 import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleCheck as faCircleCheckSolid } from "@fortawesome/free-solid-svg-icons"
+import { faCircleCheck as faCircleCheckRegular } from "@fortawesome/free-regular-svg-icons"
 
 interface Rule {
   id: number
@@ -77,13 +81,10 @@ const Password = () => {
               const valid = checkValid(rule)
               return (
                 <div key={rule.id} className="flex gap-2 items-start">
-                  <i
-                    className={`${
-                      valid
-                        ? "fa-solid fa-circle-check text-cyan-400"
-                        : "fa-regular fa-circle-check text-gray-500"
-                    }`}
-                  ></i>
+                  <FontAwesomeIcon
+                    icon={valid ? faCircleCheckSolid : faCircleCheckRegular}
+                    className={valid ? "text-cyan-400" : "text-gray-500"}
+                  />
                   <span className="text-white">{rule.text}</span>
                 </div>
               )
